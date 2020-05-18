@@ -1,7 +1,7 @@
 import { PropTypes } from 'prop-types';
 import React, { Component } from 'react';
-import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
+import {useMutation} from "@apollo/client";
 
 class AddTodoView extends Component {
   inputEl;
@@ -39,10 +39,7 @@ const ADD_TODO = gql`
   }
 `;
 
-const AddTodo = () => (
-  <Mutation mutation={ADD_TODO}>
-    {addTodo => (<AddTodoView addTodo={addTodo} />)}
-  </Mutation>
-);
-
-export default AddTodo;
+export default function AddTodo() {
+  const [addTodo] = useMutation(ADD_TODO);
+  return <AddTodoView addTodo={addTodo} />;
+}

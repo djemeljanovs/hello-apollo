@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 import { PropTypes } from 'prop-types';
 import React from 'react';
-import { Mutation } from 'react-apollo';
+import {useMutation} from "@apollo/client";
 
 const DecrementView = ({ onDecrement }) => (
   <button onClick={onDecrement}>-</button>
@@ -17,10 +17,7 @@ const DECREMENT_COUNTER = gql`
   }
 `;
 
-const Decrement = () => (
-  <Mutation mutation={DECREMENT_COUNTER}>
-    {decrementCounter => <DecrementView onDecrement={decrementCounter} />}
-  </Mutation>
-);
-
-export default Decrement;
+export default function Decrement() {
+  const [decrementCounter] = useMutation(DECREMENT_COUNTER);
+  return <DecrementView onDecrement={decrementCounter} />;
+}

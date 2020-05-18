@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 import { PropTypes } from 'prop-types';
 import React from 'react';
-import { Query } from 'react-apollo';
+import {useQuery} from '@apollo/client'
 import Todo from './Todo';
 
 
@@ -32,10 +32,9 @@ const GET_TODOS = gql`
   }
 `;
 
-const Todos =  () => (
-  <Query query={GET_TODOS}>
-    {({ data: { todos } }) => <TodosView todos={todos} />}
-  </Query>
-);
-
-export default Todos;
+export default function Todos() {
+  const {data} = useQuery(GET_TODOS);
+  if(data && data.todos) {
+    return <TodosView todos={data.todos} />;
+  }
+}

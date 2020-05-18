@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 import { PropTypes } from 'prop-types';
 import React from 'react';
-import { Query } from 'react-apollo';
+import {useQuery} from "@apollo/client";
 
 const CounterView = ({ counter }) => (
   <div>{counter}</div>
@@ -17,12 +17,7 @@ const GET_COUNTER = gql`
   }
 `;
 
-const Counter = () => (
-  <Query query={GET_COUNTER}>
-    {({ data }) => {
-      return <CounterView {...data} />;
-    }}
-  </Query>
-);
-
-export default Counter;
+export default function Counter() {
+  const {data} = useQuery(GET_COUNTER);
+  return <CounterView {...data} />;
+}

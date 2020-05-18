@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 import { PropTypes } from 'prop-types';
 import React from 'react';
-import { Mutation } from 'react-apollo';
+import {useMutation} from "@apollo/client";
 
 const IncrementView = ({ onIncrement }) => (
   <button onClick={onIncrement}>+</button>
@@ -17,10 +17,7 @@ const INCREMENT_COUNTER = gql`
   }
 `;
 
-const Increment = () => (
-  <Mutation mutation={INCREMENT_COUNTER}>
-    {incrementCounter => <IncrementView onIncrement={incrementCounter} />}
-  </Mutation>
-);
-
-export default Increment;
+export default function Increment() {
+  const [incrementCounter] = useMutation(INCREMENT_COUNTER);
+  return <IncrementView onIncrement={incrementCounter} />;
+}

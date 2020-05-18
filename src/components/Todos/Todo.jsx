@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 import { PropTypes } from 'prop-types';
 import React from 'react';
-import { Mutation } from 'react-apollo';
+import {useMutation} from "@apollo/client";
 
 const TodoView = ({ completed, text, onClick }) => (
   <div
@@ -26,16 +26,13 @@ const TOGGLE_TODO = gql`
   }
 `;
 
-const Todo = ({ completed, id, text }) => (
-  <Mutation mutation={TOGGLE_TODO} variables={{ id }}>
-    {toggleTodo => (
-      <TodoView
-        completed={completed}
-        text={text}
-        onClick={toggleTodo}
-      />
-    )}
-  </Mutation>
-);
-
-export default Todo;
+export default function Todo({ completed, id, text }) {
+    const [toggleTodo] = useMutation(TOGGLE_TODO, {variables: {id}});
+    return (
+        <TodoView
+            completed={completed}
+            text={text}
+            onClick={toggleTodo}
+        />
+    );
+}
